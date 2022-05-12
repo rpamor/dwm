@@ -1,5 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
+#define TERMINAL "alacritty"
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -21,6 +23,18 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {TERMINAL, "--class", "spterm", "-o", "window.dimensions.columns=100", "-o", "window.dimensions.lines=30", NULL };
+const char *spcmd2[] = {TERMINAL, "--class", "spfm", "-o", "window.dimensions.columns=100", "-o", "window.dimensions.lines=30", "-e", "lf", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"spranger",    spcmd2},
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -30,13 +44,15 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-  { "KeePassXC",    NULL,       NULL,       0,            1,           -1 },
-  { "Seahorse",     NULL,       NULL,       0,            1,           -1 },
-  { "firefox",      NULL,       NULL,       1 << 2,       0,           -1 },
-  { "qutebrowser",  NULL,       NULL,       1 << 2,       0,           -1 },
-  { "Gimp",         NULL,       NULL,       1 << 5,       0,           -1 },
-  { "youtube-dl",   NULL,       NULL,       1 << 8,       0,           -1 },
-  { "yt-dlp",       NULL,       NULL,       1 << 8,       0,           -1 },
+  { "KeePassXC",    NULL,         NULL,       0,            1,          -1 },
+  { "Seahorse",     NULL,         NULL,       0,            1,          -1 },
+  { "firefox",      NULL,         NULL,       1 << 2,       0,          -1 },
+  { "qutebrowser",  NULL,         NULL,       1 << 2,       0,          -1 },
+  { "Gimp",         NULL,         NULL,       1 << 5,       0,          -1 },
+  { "youtube-dl",   NULL,         NULL,       1 << 8,       0,          -1 },
+  { "yt-dlp",       NULL,         NULL,       1 << 8,       0,          -1 },
+  { NULL,           "spterm",     NULL,       SPTAG(0),     1,          -1 },
+  { NULL,           "spfm",       NULL,       SPTAG(1),     1,          -1 },
 };
 
 /* layout(s) */
@@ -66,8 +82,8 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-#define TERMINAL "alacritty"
 static const char *termcmd[]  = { TERMINAL, NULL };
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -94,6 +110,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.ui = 0 } },
+	{ MODKEY,                       XK_u,      togglescratch,  {.ui = 1 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -116,7 +134,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
