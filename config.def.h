@@ -9,7 +9,7 @@ static const char *fonts[]          = {
                                         "monospace:size=10:antialias=true:autohint=true",
                                         "JoyPixels:size=10:antialias=true:autohint=true",
                                       };
-static const char dmenufont[]       = "monospace:size=10";
+static const char dmenufont[]       = "monospace:size=10:antialias=true:autohint=true";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
