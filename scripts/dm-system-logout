@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -o errexit
+set -o nounset
+
+script_path=$(realpath "${0}")
+script_dir=$(dirname "${script_path}")
+
+#dmenu="rofi -dmenu -i -l 5 -p Logout"
+dmenu="dmenu -i -p Logout -sb darkred"
+options=$(cat << OPT
+No
+Yes
+OPT
+)
+option="$(printf '%s\n' ${options} | ${dmenu})"
+
+if [ "${option}" = "Yes" ]; then
+  kill -TERM "$(pgrep -u "${USER}" "\bdwm$")"
+fi
