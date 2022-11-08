@@ -15,3 +15,9 @@ sudo make install
 Add the following line to your .xinitrc to start dwm using startx:
 
     exec dwm
+
+## Using dwm
+
+`MODKEY` is set to `Super` key.
+
+`MODKEY + Shift + Enter` - Opens the terminal
