@@ -71,6 +71,11 @@ static const Rule rules[] = {
   { NULL,                 "keepassxc",            NULL,   SPTAG(2),   1,          -1 },
 };
 
+/* window swallowing */
+static const int swaldecay = 3;
+static const int swalretroactive = 1;
+static const char swalsymbol[] = "👅";
+
 /* layout(s) */
 static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
@@ -146,6 +151,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_u,      swalstopsel,    {0} },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.ui = 0 } },
 	{ MODKEY|ShiftMask,             XK_f,      togglescratch,  {.ui = 1 } },
 	{ MODKEY|ShiftMask,             XK_p,      togglescratch,  {.ui = 2 } },
@@ -164,17 +170,18 @@ static const Key keys[] = {
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
-	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
-	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
-	{ ClkTagBar,            0,              Button1,        view,           {0} },
-	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
-	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	/* click                event mask          button          function        argument */
+	{ ClkLtSymbol,          0,                  Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,                  Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkWinTitle,          0,                  Button2,        zoom,           {0} },
+	{ ClkStatusText,        0,                  Button2,        spawn,          {.v = termcmd } },
+	{ ClkClientWin,         MODKEY,             Button1,        movemouse,      {0} },
+	{ ClkClientWin,         MODKEY,             Button2,        togglefloating, {0} },
+	{ ClkClientWin,         MODKEY,             Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY|ShiftMask,   Button1,        swalmouse,      {0} },
+	{ ClkTagBar,            0,                  Button1,        view,           {0} },
+	{ ClkTagBar,            0,                  Button3,        toggleview,     {0} },
+	{ ClkTagBar,            MODKEY,             Button1,        tag,            {0} },
+	{ ClkTagBar,            MODKEY,             Button3,        toggletag,      {0} },
 };
 
