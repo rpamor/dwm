@@ -42,12 +42,12 @@ const char *spcmd2[] = {TERMINAL,
   "-o", "window.dimensions.lines=30",
   "-e", "lf",
   NULL };
-const char *spcmd3[] = {"keepassxc", NULL };
+//const char *spcmd3[] = {"keepassxc", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"alacritty", spcmd1},
 	{"lf", spcmd2},
-	{"keepassxc", spcmd3},
+	//{"keepassxc", spcmd3},
 };
 
 /* tagging */
@@ -66,9 +66,10 @@ static const Rule rules[] = {
   { "youtube-dl",         NULL,                   NULL,   1 << 8,     0,          -1 },
   { "yt-dlp",             NULL,                   NULL,   1 << 8,     0,          -1 },
   { "ranger_fileselect",  "alacritty",            NULL,   0,          1,          -1 },
+  { "KeePassXC",          NULL,                   NULL,   0,          1,          -1 },
   { NULL,                 "sp_alacritty",         NULL,   SPTAG(0),   1,          -1 },
   { NULL,                 "sp_lf",                NULL,   SPTAG(1),   1,          -1 },
-  { NULL,                 "keepassxc",            NULL,   SPTAG(2),   1,          -1 },
+  //{ NULL,                 "keepassxc",            NULL,   SPTAG(2),   1,          -1 },
 };
 
 /* window swallowing */
@@ -154,7 +155,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_u,      swalstopsel,    {0} },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.ui = 0 } },
 	{ MODKEY|ShiftMask,             XK_f,      togglescratch,  {.ui = 1 } },
-	{ MODKEY|ShiftMask,             XK_p,      togglescratch,  {.ui = 2 } },
+	//{ MODKEY|ShiftMask,             XK_p,      togglescratch,  {.ui = 2 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
